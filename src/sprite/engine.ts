@@ -67,17 +67,22 @@ export function drawFrame(
   frame: PixelMap,
   palette: Palette,
   pixelSize: number,
+  opts?: { offsetX?: number; offsetY?: number; clear?: boolean },
 ): void {
   validateFrame(frame, palette);
+  const ox = Math.round(opts?.offsetX ?? 0) * pixelSize;
+  const oy = Math.round(opts?.offsetY ?? 0) * pixelSize;
   ctx.imageSmoothingEnabled = false;
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  if (opts?.clear !== false) {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  }
   for (let y = 0; y < frame.length; y++) {
     const row = frame[y];
     for (let x = 0; x < row.length; x++) {
       const ch = row[x];
       if (ch === '.' || ch === ' ') continue;
       ctx.fillStyle = palette[ch];
-      ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+      ctx.fillRect(ox + x * pixelSize, oy + y * pixelSize, pixelSize, pixelSize);
     }
   }
 }

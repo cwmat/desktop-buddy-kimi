@@ -31,6 +31,7 @@ export interface TrayCallbacks {
   onSelectPet: (id: string) => void;
   onTreat: () => void;
   onSettings: () => void;
+  onPalette: () => void;
   onQuit: () => void;
 }
 
@@ -83,6 +84,7 @@ export class TrayController {
       { type: 'separator' },
       { label: 'Give Treat', click: () => this.callbacks.onTreat() },
       { label: 'Settings', click: () => this.callbacks.onSettings() },
+      { label: 'Command Palette', accelerator: 'Ctrl+K', click: () => this.callbacks.onPalette() },
       { type: 'separator' },
       { label: 'Quit', click: () => this.callbacks.onQuit() },
     ]);

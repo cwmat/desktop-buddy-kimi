@@ -35,9 +35,16 @@ export const IPC = {
   petState: 'pet:state',
   petChanged: 'pet:changed',
   petDrag: 'pet:drag',
+  petDirection: 'pet:direction',
+  petMenu: 'pet:menu',
+  petCycle: 'pet:cycle',
   petsList: 'pets:list',
+  petsDetail: 'pets:detail',
   petCurrent: 'pet:current',
   windowsToggleSettings: 'windows:toggleSettings',
+  paletteOpen: 'palette:open',
+  appResetPosition: 'app:resetPosition',
+  appQuit: 'app:quit',
 } as const;
 
 export type IpcChannel = (typeof IPC)[keyof typeof IPC];
