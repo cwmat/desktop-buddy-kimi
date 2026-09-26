@@ -1,6 +1,6 @@
 {
   "name": "desktop-buddy-kimi",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Pixel-art desktop pet overlay (Windows-first, cross-platform)",
   "main": "dist/main/main.js",
   "scripts": {
@@ -8,16 +8,20 @@
     "typecheck": "tsc --noEmit",
     "start": "electron .",
     "test": "node --test \"tests/*.test.ts\"",
-    "smoke": "electron . -- --smoke"
+    "smoke": "electron . -- --smoke",
+    "icon": "node scripts/gen-icon.mjs",
+    "dist": "npm run icon && npm run build && electron-builder"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "electron": "^37.0.0",
+    "electron-builder": "^26.15.3",
     "esbuild": "^0.25.0",
     "typescript": "^5.8.0"
   },
   "allowScripts": {
     "electron@37.10.3": true,
-    "esbuild@0.25.12": true
+    "esbuild@0.25.12": true,
+    "electron-builder@26.15.3": true
   }
 }

@@ -265,7 +265,10 @@ async function waitForJs(wc: WebContents, expression: string, timeoutMs = 8000):
 }
 
 async function runSmoke(): Promise<void> {
-  const smokeDir = path.join(app.getAppPath(), 'smoke');
+  // Packaged: app path is inside the asar (read-only) — write next to the exe.
+  const smokeDir = app.isPackaged
+    ? path.join(path.dirname(app.getPath('exe')), 'smoke')
+    : path.join(app.getAppPath(), 'smoke');
   fs.mkdirSync(smokeDir, { recursive: true });
 
   if (!petWindow || !settingsWindow) {

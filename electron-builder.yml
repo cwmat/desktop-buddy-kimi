@@ -1,0 +1,10 @@
+appId: com.cwmat.desktop-buddy
+productName: Desktop Buddy
+files:
+  - dist/**
+  - package.json
+directories:
+  output: out
+win:
+  target: portable
+  icon: assets/icon.png
