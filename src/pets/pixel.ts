@@ -1,0 +1,220 @@
+import type { PetDefinition } from './types';
+
+// Pixel the Tuxedo cat: black with white chest/face patch, judgmental
+// half-lidded eyes, tail that flicks.
+// k = black fur, K = near-black outline, w = white, e = amber eye, n = nose pink
+const palette = {
+  k: '#2b2b34',
+  K: '#15151c',
+  w: '#f2f2f5',
+  e: '#f5b942',
+  n: '#f28ba8',
+};
+
+const idle0 = [
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkkkkkkkkkkK..',
+  '..KkekkkkkkekK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK...',
+  '...KkwwwwwwkK...',
+  '...KkkkkkkkkK...',
+  '....KkkkkkkK..KK',
+  '....KkK..KkK..K.',
+  '...KKK....KKK...',
+  '................',
+];
+
+const idleBlink = [
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkkkkkkkkkkK..',
+  '..Kk.kkkkkk.kK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK...',
+  '...KkwwwwwwkK...',
+  '...KkkkkkkkkK...',
+  '....KkkkkkkK..KK',
+  '....KkK..KkK..K.',
+  '...KKK....KKK...',
+  '................',
+];
+
+const walk0 = [
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkkkkkkkkkkK..',
+  '..KkekkkkkkekK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK...',
+  '...KkwwwwwwkK.K.',
+  '...KkkkkkkkkK.K.',
+  '....KkkkkkkK....',
+  '...KK......KK...',
+  '..KK........KK..',
+  '................',
+];
+
+const walk1 = [
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkkkkkkkkkkK..',
+  '..KkekkkkkkekK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK...',
+  '...KkwwwwwwkK...',
+  '...KkkkkkkkkK...',
+  '....KkkkkkkK.K..',
+  '....KkK..KkKK...',
+  '...KKK....KKK...',
+  '................',
+];
+
+const happy0 = [
+  '................',
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkkkkkkkkkkK..',
+  '..KkekkkkkkekK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK...',
+  '...KkkkkkkkkK...',
+  '....KkkkkkkK..KK',
+  '....KKK..KKK....',
+  '................',
+  '................',
+];
+
+const happy1 = [
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkkkkkkkkkkK..',
+  '..KkekkkkkkekK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK..K',
+  '...KkwwwwwwkK.K.',
+  '...KkkkkkkkkK...',
+  '....KkkkkkkK....',
+  '....KKK..KKK....',
+  '................',
+  '................',
+];
+
+const eat0 = [
+  '................',
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkkkkkkkkkkK..',
+  '..KkekkkkkkekK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK...',
+  '...KkwwwwwwkK...',
+  '....KkkkkkkK....',
+  '....KKK..KKK....',
+  '.............KK.',
+  '................',
+];
+
+const eat1 = [
+  '................',
+  '................',
+  '................',
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkK....KkkK..',
+  '..KkkkKKKKkkkK..',
+  '..KkekkkkkkekK..',
+  '..KkkkknnkkkkK..',
+  '..KkkwwkkwwkkK..',
+  '...KkwwwwwwkK...',
+  '...KkkkkkkkkK...',
+  '....KKK..KKK....',
+  '.............KK.',
+  '................',
+];
+
+const sleep0 = [
+  '................',
+  '................',
+  '................',
+  '................',
+  '................',
+  '................',
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '..KkkkKKKKkkkK..',
+  '.Kk.kkkkkkkk.kK.',
+  '.KkkkkknnkkkkkK.',
+  '.KkkwwwwwwwwkkKK',
+  '..KKKKKKKKKKKKK.',
+  '................',
+  '................',
+];
+
+const sleep1 = [
+  '................',
+  '................',
+  '................',
+  '................',
+  '................',
+  '................',
+  '................',
+  '................',
+  '..KK........KK..',
+  '..KkK......KkK..',
+  '.KkkkkKKKKkkkkK.',
+  '.Kk.kkknnkkk.kK.',
+  '.KkkwwwwwwwwkkKK',
+  '..KKKKKKKKKKKKK.',
+  '................',
+  '................',
+];
+
+const pixel: PetDefinition = {
+  id: 'pixel',
+  name: 'Pixel',
+  species: 'Tuxedo cat',
+  blurb: 'Judgmental blinks. Chaotic zoomies.',
+  grid: { width: 16, height: 16 },
+  palette,
+  animations: {
+    idle: { frames: [idle0, idleBlink], fps: 2 },
+    walk: { frames: [walk0, walk1], fps: 5 },
+    happy: { frames: [happy0, happy1], fps: 6 },
+    eat: { frames: [eat0, eat1], fps: 3 },
+    sleep: { frames: [sleep0, sleep1], fps: 1 },
+  },
+};
+
+export default pixel;
