@@ -1,10 +1,12 @@
 // Window factories for the pet overlay and the settings window.
 
-import { BrowserWindow, screen } from 'electron';
+import { BrowserWindow, nativeImage, screen } from 'electron';
 import * as path from 'node:path';
 import { windowSizeFor } from '../sprite/engine';
 import type { PetDefinition } from '../pets/types';
 import type { Settings } from '../shared/types';
+import { buildIconRgba } from './icon';
+import { encodePng } from './png';
 
 export function defaultPetPosition(size: { width: number; height: number }): { x: number; y: number } {
   const area = screen.getPrimaryDisplay().workArea;
@@ -53,6 +55,8 @@ export function createSettingsWindow(isQuitting: () => boolean): BrowserWindow {
     maximizable: false,
     fullscreenable: false,
     backgroundColor: '#14141b',
+    // Taskbar/alt-tab icon. Generated in code — no asset file needed at runtime.
+    icon: nativeImage.createFromBuffer(encodePng(64, 64, buildIconRgba(64))),
     webPreferences: {
       preload: path.join(__dirname, '..', 'preload', 'settings.js'),
       contextIsolation: true,
